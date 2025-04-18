@@ -1,1 +1,1 @@
-// Content script for automation logic
+// content logic

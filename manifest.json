@@ -1,19 +1,23 @@
 {
   "manifest_version": 2,
   "name": "DVSA Booking Aid",
-  "version": "5.1",
-  "description": "A Firefox extension to help monitor and book DVSA driving test slots.",
+  "version": "5.2",
+  "description": "Helps you monitor and pre-select driving test slots on the DVSA website.",
   "icons": {
     "48": "icons/icon48.png"
   },
   "permissions": [
     "storage",
     "tabs",
-    "*://*.dvsa.gov.uk/*"
+    "alarms"
   ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
   "browser_action": {
     "default_popup": "popup.html",
-    "default_icon": "icons/icon48.png"
+    "default_title": "DVSA Booker"
   },
   "content_scripts": [
     {
@@ -21,7 +25,5 @@
       "js": ["content.js"]
     }
   ],
-  "background": {
-    "scripts": ["background.js"]
-  }
+  "web_accessible_resources": ["alert.mp3"]
 }
