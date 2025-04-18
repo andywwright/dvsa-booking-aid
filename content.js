@@ -8,22 +8,23 @@
   const maxCentres = parseInt(settings.maxCentres || 4, 10);
 
   const matchesRange = (text) => {
-    const regex = /([0-9]{1,2} [A-Z][a-z]+ [0-9]{4})/;
+    const regex = /([0-9]{2}\/[0-9]{2}\/[0-9]{4})/;
     const found = text.match(regex);
     if (!found) return false;
-    const date = new Date(found[1]);
+    const [day, month, year] = found[1].split("/");
+    const date = new Date(`${year}-${month}-${day}`);
     return date >= startDate && date <= endDate;
   };
 
-  const links = [...document.querySelectorAll("a")];
+  const links = [...document.querySelectorAll("a.test-centre-details-link")];
   let checked = 0;
   for (const link of links) {
     if (checked >= maxCentres) break;
     if (matchesRange(link.innerText)) {
       clearInterval(window.__dvsaCountdownInterval);
-      link.click();
       const audio = new Audio(browser.runtime.getURL("alert.mp3"));
       audio.play();
+      link.click();
       return;
     }
     checked++;
