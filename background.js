@@ -1,0 +1,1 @@
+// Background logic, like refresh countdown and captcha alerts
