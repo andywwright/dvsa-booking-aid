@@ -1,10 +1,14 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "DVSA Booking Aid",
   "version": "6.0",
   "description": "Auto-refreshes DVSA test center page and alerts on available dates within a range.",
-  "permissions": ["storage", "https://driverpracticaltest.dvsa.gov.uk/*"],
-  "browser_action": {
+  "permissions": ["storage"],
+  "host_permissions": ["https://driverpracticaltest.dvsa.gov.uk/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "48": "icons/icon48.png"
@@ -13,14 +17,5 @@
   "content_scripts": [{
     "matches": ["https://driverpracticaltest.dvsa.gov.uk/*"],
     "js": ["content.js"]
-  }],
-  "background": {
-    "scripts": ["background.js"]
-  },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "dvsa-booking-aid@andywright",
-      "strict_min_version": "91.0"
-    }
-  }
+  }]
 }

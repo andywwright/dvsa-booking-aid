@@ -18,3 +18,17 @@ function updateCurrentRangeDisplay(start, end, centres) {
   if (settings.maxCentres) document.getElementById('maxCentres').value = settings.maxCentres;
   updateCurrentRangeDisplay(settings.startDate, settings.endDate, settings.maxCentres);
 })();
+
+document.getElementById('clear').addEventListener('click', () => {
+  browser.storage.local.clear().then(() => {
+    alert('Local data cleared.');
+    location.reload();
+  });
+});
+
+
+document.getElementById('clear').addEventListener('click', async () => {
+  await browser.storage.local.clear();
+  alert('Local storage cleared. Reloading...');
+  location.reload();
+});
