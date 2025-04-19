@@ -1,1 +1,1 @@
-// Background currently does nothing
+// empty background script for Firefox v2 support

@@ -8,7 +8,7 @@
   const maxCentres = parseInt(settings.maxCentres || 4, 10);
 
   const matchesRange = (text) => {
-    const regex = /([0-9]{2}\/[0-9]{2}\/[0-9]{4})/;
+    const regex = /([0-9]{2}\/([0-9]{2})\/([0-9]{4}))/;
     const found = text.match(regex);
     if (!found) return false;
     const [day, month, year] = found[1].split("/");
