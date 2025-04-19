@@ -1,34 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const start = document.getElementById('startDate');
-  const end = document.getElementById('endDate');
-  const maxCentres = document.getElementById('maxCentres');
-  const rangeDisplay = document.getElementById('currentRange');
-  const save = document.getElementById('save');
-
-  const today = new Date();
-  const threeMonths = new Date();
-  threeMonths.setMonth(today.getMonth() + 3);
-
-  browser.storage.local.get(['startDate', 'endDate', 'maxCentres']).then(data => {
-    const startVal = data.startDate || today.toISOString().split('T')[0];
-    const endVal = data.endDate || threeMonths.toISOString().split('T')[0];
-    const maxVal = data.maxCentres || 4;
-    start.value = startVal;
-    end.value = endVal;
-    maxCentres.value = maxVal;
-    rangeDisplay.textContent = `🔎 Range: ${startVal} → ${endVal}, Centres: ${maxVal}`;
-  });
-
-  save.addEventListener('click', () => {
-    const newStart = start.value;
-    const newEnd = end.value;
-    const newMax = parseInt(maxCentres.value, 10) || 4;
-    browser.storage.local.set({
-      startDate: newStart,
-      endDate: newEnd,
-      maxCentres: newMax
-    }).then(() => {
-      rangeDisplay.textContent = `🔎 Range: ${newStart} → ${newEnd}, Centres: ${newMax}`;
-    });
-  });
+document.getElementById('save').addEventListener('click', async () => {
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+  const maxCentres = document.getElementById('maxCentres').value;
+  await browser.storage.local.set({ startDate, endDate, maxCentres });
+  updateCurrentRangeDisplay(startDate, endDate, maxCentres);
 });
+
+function updateCurrentRangeDisplay(start, end, centres) {
+  const rangeBox = document.getElementById('currentRange');
+  rangeBox.textContent = `🔎 Range: ${start} → ${end}, Centres: ${centres}`;
+}
+
+(async () => {
+  const settings = await browser.storage.local.get(['startDate', 'endDate', 'maxCentres']);
+  if (settings.startDate) document.getElementById('startDate').value = settings.startDate;
+  if (settings.endDate) document.getElementById('endDate').value = settings.endDate;
+  if (settings.maxCentres) document.getElementById('maxCentres').value = settings.maxCentres;
+  updateCurrentRangeDisplay(settings.startDate, settings.endDate, settings.maxCentres);
+})();

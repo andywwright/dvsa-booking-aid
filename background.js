@@ -1,1 +1,1 @@
-// background logic
+// Background currently does nothing
